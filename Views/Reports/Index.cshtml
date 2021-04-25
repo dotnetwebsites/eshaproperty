@@ -1,0 +1,70 @@
+@using EeshaProperty.Data
+@using EeshaProperty.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+
+@inject ApplicationDbContext _repository
+@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Report Dashboard";
+    ViewData["ActivePage"] = "Dashboard";
+    var user = await userManager.GetUserAsync(User);
+    var isAdmin = !SignInManager.IsSignedIn(User) ? false : await userManager.IsInRoleAsync(user,"admin");
+    
+    var enquiries = isAdmin 
+    ? _repository.Enquiries.ToList()
+    : _repository.Enquiries.Where(p => p.EmpCode == user.EmployeeCode).ToList();
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div id="cardbox1">
+            <div class="statistic-box">
+                <i class="fa fa-calendar fa-3x"></i>
+                <div class="counter-number pull-right">
+                    <span class="count-number">@enquiries?.Count()</span>
+                </div>
+                <h3>Total Enquiries</h3>
+            </div>
+        </div>        
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div id="cardbox1">
+            @{
+                var today = DateTime.Today;
+                var month = new DateTime(today.Year, today.Month, 1);       
+                var first = month.AddMonths(-1);
+                var last = month.AddDays(-1);
+                var lMonthCount = enquiries.Where(p => p.CreatedDate.Date >= first.Date && p.CreatedDate.Date <= last.Date).Count();
+            }
+            <div class="statistic-box">
+                <i class="fa fa-calendar-o fa-3x"></i>
+                <div class="counter-number pull-right">
+                    <span class="count-number">@lMonthCount</span>
+                </div>
+                <h3>Last Month Enquiries</h3>
+                <p>From @first.ToString("dd MMM yyyy") To @last.ToString("dd MMM yyyy")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div id="cardbox1">
+            @{
+                DateTime mondayOfLastWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek - 6);
+                DateTime sundayOfLastWeek = mondayOfLastWeek.AddDays(6);
+                var lWeekCount = enquiries.Where(p => p.CreatedDate.Date >= mondayOfLastWeek.Date && p.CreatedDate.Date <= sundayOfLastWeek.Date).Count();
+            }
+            <div class="statistic-box">
+                <i class="fa fa-calendar-plus-o fa-3x"></i>
+                <div class="counter-number pull-right">
+                    <span class="count-number">@lWeekCount</span>
+
+                </div>
+                <h3>Last Week Enquiries</h3>
+                <p>From @mondayOfLastWeek.ToString("dd MMM yyyy") To @sundayOfLastWeek.ToString("dd MMM yyyy")</p>
+            </div>
+        </div>
+    </div>
+
+</div>

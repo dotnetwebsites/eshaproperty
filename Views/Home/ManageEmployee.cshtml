@@ -1,0 +1,108 @@
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Manage Employee";
+    ViewData["ActivePage"] = "ManageUser";
+}
+
+@section Scripts {
+    <script>
+        function DeleteConfirm() {
+                if (confirm("Are you sure want to delete this record"))
+                return true;
+                else
+                return false;
+            }
+
+        function ResendEmail(){
+            if(confirm("Are you sure want to resend email")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="panel panel-bd ">
+            <div class="panel-body">                
+                <label class="text-success">@TempData["StatusMessage"]</label>
+                <div class="table-responsive col-lg-12 m-t-20">                    
+                    <a asp-action="NewEmployee" class="btn btn-primary">Add New Employee</a>
+                    <br />
+                    <br />
+                    <table id="dataTableExample1" class="table table-bordered table-striped ">
+                        <thead>
+                            <tr class="info">
+                                <th>Sales Rep ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile No</th>
+                                <th>Gender</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                               <tr>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.EmployeeCode)
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.FullName)
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.Email)
+                                   </td>
+                                   <td>
+                                       @if(item.EmailConfirmed){
+                                           @Html.ActionLink("Confirmed", null, null,
+                                            htmlAttributes: new { @class = "btn btn-success btn-xs" })                                            
+                                       }else{
+                                           @Html.ActionLink("Not Confirmed", "SendEmailVerificationCode", new { id = item.Id },
+                                            htmlAttributes: new { @class = "btn btn-danger btn-xs", @Title="Click here to send another email.", @onclick = "return ResendEmail()" }) 
+                                       }
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                   </td>
+                                   <td>
+                                       @{
+                                            if(item.Gender.ToLower() == "male")
+                                            {
+                                                <span>Male</span>
+                                            }
+                                            else if(item.Gender.ToLower() == "female")
+                                            {
+                                                <span>Female</span>
+                                            }
+                                            else {
+                                                <span>N/A</span>
+                                            }
+                                       }
+                                   </td>
+                                   
+                                    <td class="text-center">
+                                        @Html.ActionLink("Delete", "DeleteEmployee", new { id = item.Id },
+                                        htmlAttributes: new { @class = "btn btn-danger btn-xs", @Title="Delete Employee", @onclick="return DeleteConfirm()" })                                         
+                                    </td>                                    
+                                    <td class="text-center">
+                                        @Html.ActionLink("View", "EditEmployee", new { id = item.Id },
+                                        htmlAttributes: new { @class = "btn btn-primary btn-xs", @Title="View" }) 
+                                    </td>                                    
+                               </tr> 
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

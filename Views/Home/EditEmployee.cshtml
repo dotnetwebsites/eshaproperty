@@ -1,0 +1,91 @@
+@model ApplicationUser
+@{
+    ViewData["Title"] = "Update User";
+    ViewData["ActivePage"] = "ManageUser";
+}
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+        <div class="panel-heading">
+            <div class="btn-group" id="buttonlist"> 
+                Create User 
+            </div>
+        </div>
+        <div class="panel-body">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                
+                <div class="col-sm-4 form-group">
+                    <label>Sales Rep ID</label>
+                    <input asp-for="EmployeeCode" class="form-control" placeholder="EmployeeCode"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>First Name</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="First Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Middle Name</label>
+                    <input asp-for="MiddleName" class="form-control" placeholder="Middle Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Last Name</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Last Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Username</label>
+                    <input asp-for="UserName" class="form-control" placeholder="Username"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Email"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Mobile Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Mobile No"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Designation</label>
+                    <input asp-for="Designation" class="form-control" placeholder="Designation"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Date Of Joining</label>
+                    <input asp-for="DateofJoining" class="form-control" placeholder="Date of Joining"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Gender</label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Complete Address</label>
+                    <input asp-for="Address" class="form-control" placeholder="Complete Address"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Highest Qualification</label>
+                    <input asp-for="HighestQualification" class="form-control" placeholder="Highest Qualification"/>
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <label>Employee Status</label><br/>
+                    <input type="radio" id="IsActive1" asp-for="IsActive" value="true"/> <label for="IsActive1">Active</label>
+                    <input type="radio" id="IsActive2" asp-for="IsActive" value="false"/> <label for="IsActive2">Discontinue</label>
+                </div>
+
+                <div class="reset-button col-sm-12">                        
+                    <button type="submit" class="btn btn-success w-md m-b-5">Submit</button>
+                    <a asp-action="ManageEmployee" asp-controller="Home" class="btn btn-primary w-md m-b-5">Cancel</a>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

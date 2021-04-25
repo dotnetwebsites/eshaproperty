@@ -1,0 +1,14 @@
+@page
+@model ConfirmEmailModel
+@{
+    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    ViewData["Title"] = "Confirm email";
+}
+
+<h1>@ViewData["Title"]</h1>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+@if (Model.StatusMessage.Contains("confirming"))
+{
+    <p>Click here to <a href="/Identity/Account/Login" target="_blank">Login</a> </p>    
+}
+@* Your Password is : <b>Abc123#$%</b> *@

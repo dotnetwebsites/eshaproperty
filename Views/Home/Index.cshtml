@@ -1,0 +1,144 @@
+﻿@model ApplicationUserViewModel
+@{
+    ViewData["Title"] = "Employee";
+    ViewData["ActivePage"] = "PersonalInformation";
+}
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="card">
+            <div class="card-header">
+                @if(Model.User.ProfileImage != null){
+                    <img src="/profileimages/@Model.User.ProfileImage" alt="" class="img-circle" width="105" height="105">
+                } else {
+                    <img src="/assets/dist/img/avatar4.png" alt="" class="img-circle" width="105" height="105">
+                }                            
+            </div>
+            <div class="card-content" style="    background: white;">
+                <div class="card-content-member text-center">
+                    <h4 class="m-t-0 "><b>@Model.User.FirstName</b></h4>
+                    <p class="m-t-0"><b>@Model.User.Designation, @Model.User.EmployeeCode</b></p>
+                    <p class="m-t-0"><b>@Model.User.UserName</b></p>
+                    <hr>
+                    @if(Model.User.Email!=null)
+                    {
+                        <p class="m-t-0"><b>@Model.User.Email</b> </p>
+                    }
+                    <p class="m-t-0"><b>@Model.User.PhoneNumber</b></p>
+                    <p class="m-t-0"><b>DOJ: @Model.User.DateofJoining.ToString("dd MMM yyyy")</b></p>
+                </div>
+                <hr>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="rating-block">
+                    <h4>Personal Information</h4>
+                    <div class="panel-body">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-user-circle  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Full Name</a> <br>
+                                <p>@Model.User.FullName</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-user-circle-o  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Father Name </a> <br>
+                                <p>@Model.User.FatherName</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-genderless  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Gender</a> <br>
+                                <p>@Model.User.Gender</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-calendar  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Date of Birth</a> <br>
+                                @if(Model.User.DateOfBirth == null){
+                                    <p>DD MMM YYYY</p>
+                                }else{
+                                    <p>@Model.User.DateOfBirth?.ToString("dd MMM yyyy")</p>
+                                }
+                                
+                            </div>
+                        </div>                        
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-file-o "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">PAN</a> <br>
+                                <p>@Model.User.PAN</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-file-o  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Aadhar No </a> <br>
+                                <p>@Model.User.AadhaarNo</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-graduation-cap  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Highest Qualification </a> <br>
+                                <p>@Model.User.HighestQualification</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="work-touchpoint">
+                                <div class="work-touchpoint-date">
+                                    <i class="fa fa-map-marker  "></i>
+                                </div>
+                            </div>
+                            <div class="detailswork">
+                                <a href="javascript:;" title="headings">Address</a> <br>
+                                <p>@Model.User.Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

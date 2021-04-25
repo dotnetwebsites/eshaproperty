@@ -1,0 +1,54 @@
+@model EnquiryViewModel
+@{
+    ViewData["Title"] = "Bulk Upload";
+    ViewData["PageTitle"] = "Bulk Upload";
+    ViewData["ActivePage"] = "BulkUpload";
+}
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Bulk Enquiry Upload
+                </div>
+            </div>
+            <div class="panel-body">
+                <form method="POST" class="col-sm-12" enctype="multipart/form-data">               
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                   
+                    <div class="col-sm-4 form-group">
+                        <div class="col-md-10 custom-file">
+                            @Html.EditorFor(model => model.ExcelFile, new { htmlAttributes = new { @class = "custom-file-input"} })
+                            <label class="custom-file-label" asp-for="ExcelFile">Choose file</label><br/>
+                            <span asp-validation-for="ExcelFile" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <div class="col-md-12">
+                            <label class="text-danger">@ViewBag.RecordSaved</label>
+                        </div>
+                    </div>
+
+                    <div class="reset-button col-sm-12">                            
+                        <button id="btnupload" type="submit" class="btn btn-success w-md m-b-5">Upload</button>
+                        <a asp-action="Index" class="btn btn-primary w-md m-b-5">Cancel</a>
+                        <a href="/excelformat/BulkUploadFormat.xlsx" class="btn btn-warning w-md m-b-5">Download Excel Format</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {  
+<script type="text/javascript">  
+    // Add the following code if you want the name of the file appear on select  
+    $(".custom-file-input").on("change", function () {  
+        var fileName = $(this).val().split("\\").pop();  
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);  
+    });  
+</script>  
+}

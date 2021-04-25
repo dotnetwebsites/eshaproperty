@@ -1,0 +1,36 @@
+@model CreateRoleViewModel
+
+@{
+    ViewData["Title"] = "Manage Role";
+    ViewData["ActivePage"] = "ManageRoles";
+}
+
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Create New Role
+                </div>
+            </div>
+            <div class="panel-body">                
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group col-md-4">
+                        <label asp-for="RoleName"></label>
+                        <input asp-for="RoleName" class="form-control" placeholder="Enter role name"/>
+                        <span asp-asp-validation-for="RoleName" class="text-danger"></span>                
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-success">Create Role</button>
+                        <a asp-action="Index" asp-controller="RoleManager" class="btn btn-primary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

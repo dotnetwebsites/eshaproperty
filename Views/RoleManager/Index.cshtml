@@ -1,0 +1,80 @@
+@using Microsoft.AspNetCore.Identity;
+
+@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "Manage Role";
+    ViewData["ActivePage"] = "ManageRoles";
+}
+@section Scripts{
+    <script>
+        function DeleteConfirm()
+        {
+            if(confirm("Are you sure want to delete this records"))
+            return true;
+            else
+            return false;
+        }        
+    </script>
+
+}
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="panel panel-bd ">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="actions">
+                            <div class="btn-group btn-group">
+                                    <a class="btn btn-primary" style="with:auto" asp-controller="RoleManager" asp-action="Create">Add new role </a>                                                                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                    @if (Model.Any())
+                    {        
+                        foreach(var role in Model)
+                        {            
+                            <div class="card md-4">
+                                <div class="card-header">
+                                    <label class="text-center">Role ID <br/> @role.Id</label>
+                                    <label class="text-center">Role Name <br/> @role.Name</label>                                    
+                                </div>
+                                <div class="card-body">                                    
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-primary" asp-action="Edit" asp-controller="RoleManager" asp-route-id="@role.Id">Edit</a>
+                                        @Html.ActionLink("Delete Role", "Delete", new { id = role.Id },
+                                        htmlAttributes: new { @class = "btn btn-danger", @onclick="return DeleteConfirm()"})
+                                </div>
+                                <br/>
+                            </div>
+                        }
+                    
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                No Roles created yet
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title black">
+                                    Use the button below to create a role
+                                </h5>
+                                <a class="btn btn-primary" style="with:auto" asp-controller="RoleManager" asp-action="Create">
+                                    Create
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

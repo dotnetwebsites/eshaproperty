@@ -1,0 +1,66 @@
+@model IEnumerable<MyDocument>
+
+@{
+    ViewData["Title"] = "My Document";
+    ViewData["PageTitle"] = "My Document";
+}
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="panel panel-bd ">
+            <div class="panel-body">
+                <label class="col-sm-3 control-label"> My Document</label>
+                <div class="form-group">
+                    @if (Context.Request.Cookies["role"]!=null && Context.Request.Cookies["role"].ToString() == "admin")
+                    {                        
+                        <a asp-action="Upload" class="btn btn-primary btn-xs"> Upload </a>
+                    }
+                </div>
+                <br/>
+                <label>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </label>                                
+                <div class="table-responsive col-lg-12 m-t-20">
+                        <table class="example table table-bordered table-striped ">
+                            <thead>
+                                <tr class="info">
+                                    <th>Employee Code</th>
+                                    <th>Document File Name</th>
+                                    @if (Context.Request.Cookies["role"]!=null && Context.Request.Cookies["role"].ToString() == "admin"){
+                                        <th>Delete</th>
+                                    }                                    
+                                    <th>Download</th>                                                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EmployeeCode)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DocumentName)
+                                    </td>
+                                      
+                                    @if (Context.Request.Cookies["role"]!=null && Context.Request.Cookies["role"].ToString() == "admin")
+                                    {   <td>
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id },
+                                        htmlAttributes: new { @class = "btn btn-danger btn-xs"})
+                                        </td>
+                                    }                                                                              
+
+                                    <td>                                        
+                                        @Html.ActionLink("Download", "UserDownload", new { id = item.Id },
+                                        htmlAttributes: new { @class = "btn btn-primary btn-xs"})
+                                    </td>
+
+                                </tr> 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

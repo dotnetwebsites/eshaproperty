@@ -1,0 +1,105 @@
+@model ApplicationUser
+@{
+    ViewData["Title"] = "Manage Profile";
+    ViewData["ActivePage"] = "ManageProfile";
+}
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Manage Profile
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="col-sm-12" enctype="multipart/form-data" asp-action="Edit" method="POST">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="col-sm-4 form-group">
+                        <label>First Name</label>                        
+                        <input asp-for="FirstName" class="form-control" placeholder="Enter First Name"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Middle Name</label>
+                        <input asp-for="MiddleName" class="form-control" placeholder="Enter Middle Name"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Last Name</label>
+                        <input asp-for="LastName" class="form-control" placeholder="Enter Last Name"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Father Name</label>
+                        <input asp-for="FatherName" class="form-control" placeholder="Enter Father Name"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Gender</label>
+                        <select asp-for="Gender" class="form-control">                            
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Date of Birth</label>
+                        <input asp-for="DateOfBirth" class="form-control" placeholder="Date of Birth"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Address</label>
+                        <input asp-for="Address" class="form-control" placeholder="Full Address"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>PAN</label>
+                         <input asp-for="PAN" class="form-control" placeholder="PAN Number"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Aadhar No</label>
+                         <input asp-for="AadhaarNo" class="form-control" placeholder="Aadhaar Number"/>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Highest Qualification</label>
+                         <input asp-for="HighestQualification" class="form-control" placeholder="Enter Highest Qualification"/>
+                    </div>
+
+                    @* <div class="col-sm-4 form-group">
+                        <label>Profile Image</label>
+                        <input asp-for="Avatar" class=""/>
+                    </div> *@
+                    
+                    <div class="col-sm-4 form-group">
+                        @Html.LabelFor(model => model.Avatar)
+                        <div class="custom-file">
+                            @Html.EditorFor(model => model.Avatar, new { htmlAttributes = new { @class = "form-control custom-file-input" } })
+                            @* <label class="custom-file-label" for="customFile">Choose file</label>  *@
+                            @* @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" }) *@
+                        </div>
+                    </div>
+
+                    <div class="reset-button ">
+                        <input type="submit" class="btn btn-primary w-md m-b-5" value="Save"/>
+                        <a asp-action="Index" class="btn btn-success w-md m-b-5">Cancel</a>                                               
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{  
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">  
+        // Add the following code if you want the name of the file appear on select  
+        $(".custom-file-input").on("change", function () {  
+            var fileName = $(this).val().split("\\").pop();  
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);  
+        });  
+    </script>  
+}

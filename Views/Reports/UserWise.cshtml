@@ -1,0 +1,82 @@
+@model IEnumerable<Enquiry>
+
+@{
+    ViewData["Title"] = "User Wise Report";
+    ViewData["ActivePage"] = "Reports";    
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    User Wise Report
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="col-sm-12">
+                    <div class="col-sm-4 form-group" style="margin-left: -15px;">
+                        <label>Sales Rep Id</label>
+                        @Html.DropDownList("EmployeeId", null, "--Select Sales Rep Id--", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <a href="javascript:;" style="margin-top: 24px;" onclick="getReport()" class="btn btn-primary">Get Report</a>
+                    </div>
+
+                    <table class="table table-bordered table-striped example">
+                        <thead>
+                            <tr class="info">
+                                <th>App No</th>
+                                <th>Sales Rep Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile No</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.EmpCode</td>                                                                                                     
+                                    <td>@item.FullName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
+                                    <td>@item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</td>
+                                    <td>
+                                        <a asp-controller="Enquiry" asp-action="Details" 
+                                        asp-route-id="@item.Id" class="btn btn-primary" title="Delete Record">
+                                            <i class="fa fa-eye"></i>
+                                        </a>                                 
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function getReport()
+        {
+            var user = $("#EmployeeId").val();
+            
+            if(user=="" || user === undefined || user == null)
+            {
+                window.location = "/Reports/UserWise";
+                return false;
+            }
+
+            window.location = "/Reports/UserWise/" + user;
+        }
+    </script>
+}

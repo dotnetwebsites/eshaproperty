@@ -1,0 +1,117 @@
+@model Enquiry
+
+@using EeshaProperty.Areas.Identity.Data
+@using EeshaProperty.Data
+@using Microsoft.AspNetCore.Identity
+
+@inject ApplicationDbContext _repository
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Create New Enquiry";
+    ViewData["ActivePage"] = "AllEnquiry";
+    var user = await UserManager.GetUserAsync(User);
+    var isadmin = await UserManager.IsInRoleAsync(user,"admin");
+}
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Details - Application Form
+                </div>
+            </div>
+            <div class="panel-body">
+                <form method="GET" class="col-sm-12">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="col-sm-12 form-group">
+                        <label>Sales Rep Id : <span class="text-danger">@user.EmployeeCode</span></label>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label>First Name</label>
+                        <label class="form-control">@Model.FirstName</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Last Name</label>
+                        <label class="form-control">@Model.LastName</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Email</label>
+                        <label class="form-control">@Model.Email</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Mobile No</label>
+                        <label class="form-control">@Model.PhoneNumber</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Alternte No / Whatsapp No</label>
+                        <label class="form-control">@Model.AlternateNo</label>
+                    </div>
+                    @* <div class="col-sm-4 form-group">
+                        <label>Age</label>
+                        <label class="form-control">@Model.Age</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Father's Name</label>
+                        <label class="form-control">@Model.FatherName</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Spouse Name</label>
+                        <label class="form-control">@Model.SpouseName</label>
+                    </div> *@
+                    <div class="col-sm-4 form-group">
+                        <label>Occupation</label>
+                         <label class="form-control">@Model.Occupation</label>
+                    </div>
+                    
+                    @* <div class="col-sm-8 form-group">
+                        <label> Address Line 1</label>
+                        <label class="form-control">@Model.AddressLine1</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Own/Rent House</label>
+                         <label class="form-control">@Model.HouseType</label>
+                    </div>
+                    <div class="col-sm-8 form-group">
+                        <label>Address Line 2</label>
+                        <label class="form-control">@Model.AddressLine2</label>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label>Location</label>
+                       <label class="form-control">@Model.Location</label>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Land Mark</label>
+                        <label class="form-control">@Model.Landmark</label>
+                    </div> *@
+                    <div class="col-sm-6 form-group">
+                        <label>City</label>
+                        <label class="form-control">@Model.CityId</label>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>State</label>
+                        <label class="form-control">@Model.StateId</label>
+                    </div>
+                    @* <div class="col-sm-6 form-group">
+                        <label>Postal/Code</label>
+                        <label class="form-control">@Model.PostalCode</label>
+                    </div> *@
+
+                    <div class="reset-button col-sm-12">                        
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success w-md m-b-5">Edit</a>
+                        <a asp-action="Index" class="btn btn-primary w-md m-b-5">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

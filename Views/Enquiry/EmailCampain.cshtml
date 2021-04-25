@@ -1,0 +1,108 @@
+@model IEnumerable<Enquiry>
+
+@using EeshaProperty.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@using EeshaProperty.Data
+
+@inject UserManager<ApplicationUser> _userManager
+@inject ApplicationDbContext _repository
+
+@{
+    ViewData["Title"] = "View All Enquiries";
+    ViewData["ActivePage"] = "EmailCampain";
+
+    var user = await _userManager.GetUserAsync(User);
+    var isadmin = await _userManager.IsInRoleAsync(user,"admin");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Run Email Campaign
+                </div>
+            </div>
+            <div class="panel-body">
+                <form method="POST" class="col-sm-12" name="Form1">
+                    <div class="col-sm-12 form-group">
+                        <label>Subject</label>
+                        <input id="txtSubject" class="form-control" placeholder="Enter Subject" />
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Compose</label>
+                        <textarea id="txtMailContent" class="form-control"></textarea>
+                    </div>                    
+                    <div class="col-sm-12 form-group">
+                        <a href="javascript:;" class="btn btn-primary" onclick="sendEmail()">Send Mail</a>                        
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="//cdn.ckeditor.com/4.15.1/full/ckeditor.js"></script>
+    @* <script src="//cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script> *@
+    
+    <script type="text/javascript">
+        $(document).ready(function (){            
+            CKEDITOR.replace('txtMailContent');
+        });
+
+        function sendEmail()
+        {
+            var mailContent = CKEDITOR.instances.txtMailContent.getData();//$("#txtMailContent").val();            
+            var subject = $("#txtSubject").val();            
+            
+            console.log(mailContent);
+            if(mailContent=="")
+            {
+                alert('Please enter mail content.');
+                return false;
+            }
+
+            if(subject=="")
+            {
+                alert('Please enter Subject.');
+                return false;
+            }
+
+            //console.log(anualIncome);
+            //console.log(mailContent);
+            //console.log(obj.toString());
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("SendEmails","Enquiry")',
+                contentType: "application/json; charset=utf-8",
+                dataType:'json',
+                data: {"subject": subject, "mailContent": mailContent},
+                success: function(data){
+                    alert(data);   
+                    window.location = "/Enquiry/EmailCampain";                 
+                },
+                error: function(ex){
+                    console.log(ex);
+                }
+            });
+        }
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+    </script>
+}

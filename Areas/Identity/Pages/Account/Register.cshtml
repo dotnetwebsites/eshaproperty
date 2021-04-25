@@ -1,0 +1,104 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Add User";
+    ViewData["ActivePage"] = "CreateUser";
+}
+
+
+<div class="row">
+    <!-- Form controls -->
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+        <div class="panel-heading">
+            <div class="btn-group" id="buttonlist"> 
+                Create User 
+            </div>
+        </div>
+        <div class="panel-body">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                
+                <div class="col-sm-4 form-group">
+                    <label>Sales Rep ID</label>
+                    <input asp-for="Input.EmployeeCode" class="form-control" placeholder="Sales Rep ID"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>First Name</label>
+                    <input asp-for="Input.Firstname" class="form-control" placeholder="First Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Middle Name</label>
+                    <input asp-for="Input.Middlename" class="form-control" placeholder="Middle Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Last Name</label>
+                    <input asp-for="Input.Lastname" class="form-control" placeholder="Last Name"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Username</label>
+                    <input asp-for="Input.Username" class="form-control" placeholder="Username"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Email</label>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Email"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Mobile Number</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Mobile No"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Designation</label>
+                    <input asp-for="Input.Designation" class="form-control" placeholder="Designation"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Date Of Joining</label>
+                    <input asp-for="Input.DateOfJoining" class="form-control" placeholder="Date of Joining"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Gender</label>
+                    <select asp-for="Input.Gender" class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Complete Address</label>
+                    <input asp-for="Input.Address" class="form-control" placeholder="Complete Address"/>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label>Highest Qualification</label>
+                    <input asp-for="Input.HighestQualification" class="form-control" placeholder="Highest Qualification"/>
+                </div>
+                
+                @* <div class="col-sm-4 form-group">
+                    <label>Profile Image</label>
+                    <div class="custom-file">
+                        <input asp-for="Input.ProfileImage" class="form-control custom-file-input"/>
+                        <label class="custom-file-label" for="customFile">Choose file</label>                        
+                    </div>
+                </div> *@
+                
+                <div class="reset-button col-sm-12">                        
+                    <button type="submit" class="btn btn-success w-md m-b-5">Submit</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary w-md m-b-5">Cancel</a>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">  
+        // Add the following code if you want the name of the file appear on select  
+        $(".custom-file-input").on("change", function () {  
+            var fileName = $(this).val().split("\\").pop();  
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);  
+        });  
+    </script>  
+}

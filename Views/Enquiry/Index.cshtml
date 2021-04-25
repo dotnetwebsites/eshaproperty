@@ -1,0 +1,80 @@
+@model IEnumerable<Enquiry>
+
+@using EeshaProperty.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> _userManager
+
+@{
+    ViewData["Title"] = "View All Enquiries";
+    ViewData["ActivePage"] = "AllEnquiry";    
+    var user = await _userManager.GetUserAsync(User);
+    var isadmin = await _userManager.IsInRoleAsync(user,"admin");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    View All Enquiry
+                    <span>@ViewBag.Test</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="col-sm-12">
+                    <table class="table table-bordered table-striped example">
+                        <thead>
+                            <tr class="info">
+                                <th>Enquiry No</th>
+                                @if(isadmin)
+                                {
+                                    <th>Sales Rep Id</th>
+                                }
+                                <th>Full Name</th>
+                                @* <th width="150">Email</th> *@
+                                <th>Mobile No</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    @if(isadmin)
+                                    {
+                                        <td>@item.EmpCode</td>
+                                    }                                                                                                        
+                                    <td>@item.FullName</td>
+                                    @* <td>@item.Email</td> *@
+                                    <td>@item.PhoneNumber</td>
+                                    <td>
+                                        <a asp-controller="Enquiry" asp-action="Details" 
+                                        asp-route-id="@item.Id" class="btn btn-primary" title="Delete Record">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a asp-controller="Enquiry" asp-action="Edit" 
+                                        asp-route-id="@item.Id" class="btn btn-warning" title="Edit Record">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+
+                                        @if(isadmin)
+                                        {
+                                            <a asp-controller="Enquiry" asp-action="Delete" 
+                                            asp-route-id="@item.Id" class="btn btn-danger" title="Delete Record">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }                                        
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

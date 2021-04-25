@@ -1,0 +1,120 @@
+@model IEnumerable<Enquiry>
+
+@using EeshaProperty.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@using EeshaProperty.Data
+
+@inject UserManager<ApplicationUser> _userManager
+@inject ApplicationDbContext _repository
+
+@{
+    ViewData["Title"] = "View All Enquiries";
+    ViewData["ActivePage"] = "SMSCampain";
+
+    var user = await _userManager.GetUserAsync(User);
+    var isadmin = await _userManager.IsInRoleAsync(user,"admin");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-bd ">
+            <div class="panel-heading">
+                <div class="btn-group" id="buttonlist">
+                    Run SMS Campaign
+                </div>
+            </div>
+            <div class="panel-body">
+                <form method="POST" class="col-sm-12" name="Form1">
+                    <div class="col-sm-6 form-group" style="display: none;">
+                        <label>Annual Income</label>
+                        <select id="ddlIncomeRange" class="form-control">
+                            <option value="-1">Select Income</option>
+                            <option value="0">No Income</option>
+                            <option value="1">1 - 50,000</option>
+                            <option value="2">50,001 - 100,000</option>
+                            <option value="3">100,001 - 150,000</option>
+                            <option value="4">150,001 - 200,000</option>
+                            <option value="5">Above 2 Lacs</option>
+                        </select>                        
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Text Message</label>
+                        <textarea id="txtMessage" rows="8" cols="30" maxlength="150" class="form-control"></textarea>
+                        <div id="textarea_feedback"></div>
+                    </div>                    
+                    <div class="col-sm-12 form-group">
+                        <a href="javascript:;" class="btn btn-primary" onclick="sendSMS()">Send SMS</a>                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="//cdn.ckeditor.com/4.15.1/basic/ckeditor.js"></script>    
+    <script type="text/javascript">
+        $(document).ready(function (){
+            var text_max = 150;
+            $('#textarea_feedback').html(text_max + ' characters remaining');
+
+            $('#txtMessage').keyup(function() {
+                var text_length = $('#txtMessage').val().length;
+                var text_remaining = text_max - text_length;
+
+                $('#textarea_feedback').html(text_remaining + ' characters remaining');
+            });              
+        });
+
+      
+        function checkAll(bx) {
+            var cbs = document.getElementsByTagName('input');
+            for(var i=0; i < cbs.length; i++) {
+                if(cbs[i].type == 'checkbox') {
+                cbs[i].checked = bx.checked;
+                }
+            }
+        }
+
+        function sendSMS()
+        {            
+            var message = $('#txtMessage').val();
+
+            if(message=="")
+            {
+                alert('Please enter text message and tr again.');
+                return false;
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("SendSMS","Enquiry")',
+                contentType: "application/json; charset=utf-8",
+                dataType:'json',
+                data: {"message": message},
+                success: function(data){
+                    alert(data);                    
+                },
+                error: function(ex){
+                    console.log(ex);
+                }
+            });
+        }
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+    </script>
+}

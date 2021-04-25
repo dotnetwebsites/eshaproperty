@@ -1,0 +1,56 @@
+@model MyDocument
+@{
+    ViewData["Title"] = "My Document";
+    ViewData["PageTitle"] = "My Document";
+}
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="panel panel-bd ">
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    
+                    <form enctype="multipart/form-data" asp-action="Upload" method="POST">
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label col-md-6" })
+                            @Html.DropDownList("EmployeeCode", null,"Select  Employee Code", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.EmployeeCode, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(model => model.DocumentName, htmlAttributes: new { @class = "control-label col-md-6" })
+                            @Html.DropDownList("DocumentName", null,"Select Document", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DocumentName, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(model => model.DocumentFile, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10 custom-file">
+                                @Html.EditorFor(model => model.DocumentFile, new { htmlAttributes = new { @class = "custom-file-input" } })
+                                <span class="custom-file-label" for="customFile">Choose file</span> 
+                                @Html.ValidationMessageFor(model => model.DocumentFile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">  
+                            @Html.ActionLink("Cancel", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+                            <input type="submit" value="submit" class="btn btn-sm btn-primary rounded-0 text-uppercase" />                                    
+                        </div>  
+                    </form> 
+                          
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{  
+    <script type="text/javascript">  
+        // Add the following code if you want the name of the file appear on select  
+        $(".custom-file-input").on("change", function () {  
+            var fileName = $(this).val().split("\\").pop();  
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);  
+        });  
+    </script>  
+}
